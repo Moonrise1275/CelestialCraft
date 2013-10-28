@@ -26,11 +26,7 @@ public class BlockAntenna extends BlockCelestialCraft {
 		
 		if (!(mayPlayer instanceof EntityPlayer)) {
 			world.destroyBlock(x, y, z, true);
-		} else {
-			PlayerCeC player = PlayerCeC.getPlayer(((EntityPlayer) mayPlayer));
-			int meta = player.getPoint("optics");
-			world.setBlockMetadataWithNotify(x, y, z, meta, 2);
-		}
+		} 
 			
 	}
 	

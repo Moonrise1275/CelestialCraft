@@ -12,20 +12,22 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.event.ForgeSubscribe;
 
 public class TileReceiver extends TileCeC {
 	
 	public static final int MAX_ENERGY = 64000;
 	
-	private String player;
-	private HashSet<Coord> antennaList;
+	//Pivate EntityPlayer player;
+	private HashSet<Coord> antennaList = new HashSet<Coord>();
 	private int energy;
 	
-	public TileReceiver(EntityPlayer player) {
-		this.player = player.username;
+	public TileReceiver() {
+		//this.player = player;
 	}
 	
 	@Override
+	@ForgeSubscribe
 	public void someBlockPlaced(BlockPlaceEvent event) {
 		if (event.id == ConfigHandler.getInst().idBlockAntenna) {
 			double distance = event.coord.getDistance(xCoord, yCoord, zCoord);
@@ -34,7 +36,7 @@ public class TileReceiver extends TileCeC {
 			}
 		} else if (event.id == ConfigHandler.getInst().idBlockReceiver) {
 			double distance = event.coord.getDistance(xCoord, yCoord, zCoord);
-			if (distance <= ConfigHandler.getInst().antennaDistance) {
+			if (distance <= 2* ConfigHandler.getInst().antennaDistance) {
 				this.worldObj.spawnEntityInWorld(new EntityBomb(this.worldObj, event.coord, 1, ConfigHandler.getInst().receiverExplosionStrength));
 			}
 		}
@@ -60,7 +62,7 @@ public class TileReceiver extends TileCeC {
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbtTag) {
-		nbtTag.setString("Player", player);
+		//nbtTag.setString("Player", player.username);
 		nbtTag.setInteger("Size", antennaList.size());
 		int i=0;
 		for (Coord antenna : antennaList) {
@@ -70,7 +72,7 @@ public class TileReceiver extends TileCeC {
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbtTag) {
-		this.player = nbtTag.getString("Player");
+		//this.player = this.worldObj.getPlayerEntityByName(nbtTag.getString("Player"));
 		for (int i=0; i<nbtTag.getInteger("Size"); i++) {
 			antennaList.add(new Coord(nbtTag.getIntArray("Antenna" + i)));
 		}

@@ -56,8 +56,7 @@ public class ItemTelescope extends ItemCelestialCraft {
 	@Override
 	public boolean onItemUse(ItemStack item, EntityPlayer player, World world, int x, int y, int z, int side, float hitx, float hity, float hitz) {
 		
-		if (world.getBlockId(x, y, z) == Block.enchantmentTable.blockID)
-			world.setBlock(x, y, z, ConfigHandler.getInst().idBlockReceiver);
+		int thisBlockId = world.getBlockId(x, y, z);
 		
 		List droppedItemList = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(hitx - 0.5, hity - 0.5, hitz - 0.5, hitx + 0.5, hity + 0.5, hitz + 0.5));
 		if (droppedItemList.size() == 1 &&  droppedItemList.get(0) instanceof EntityItem) {

@@ -1,5 +1,6 @@
 package moonrise.celestialcraft.block;
 
+import moonrise.celestialcraft.event.BlockPlaceEvent;
 import moonrise.util.Coord;
 import moonrise.util.SimpleBlock;
 import net.minecraft.block.ITileEntityProvider;
@@ -8,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
 
 public class BlockReceiver extends BlockCelestialCraft implements ITileEntityProvider {
@@ -20,14 +22,18 @@ public class BlockReceiver extends BlockCelestialCraft implements ITileEntityPro
 		super(id, name);
 	}
 	
+	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack item) {
+		BlockPlaceEvent evt = new BlockPlaceEvent(new Coord(x, y, z), item.itemID, item.getItemDamage());
+		MinecraftForge.EVENT_BUS.post(evt);
+		
 		if (entity instanceof EntityPlayer)
 			this.player = (EntityPlayer) entity;
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return new TileReceiver(player);
+		return new TileReceiver();
 	}
 	
 	@Override
