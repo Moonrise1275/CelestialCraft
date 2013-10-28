@@ -39,7 +39,9 @@ public class CelestialCraft {
 	FuelHandler fuel;
 	
 	String sep = File.separator;
-	File playerData = new File("CelestialData" + sep + "CeCPlayerData.bin");
+	File dataDir;
+	File playerData;
+	File playerBackUp;
 	
 	@Mod.Instance(ModInfo.MOD_ID)
 	public static CelestialCraft instance;
@@ -48,7 +50,7 @@ public class CelestialCraft {
 	public static CommonProxy proxy;
 	
 	@Mod.EventHandler
-	public void preInit(FMLPreInitializationEvent evt) {
+	public void preInit(FMLPreInitializationEvent evt) throws IOException {
 		
 		this.tabCeC = new CreativeTabCeC(info.getModId());
 		ConfigHandler.getInst(evt.getSuggestedConfigurationFile()).init();
@@ -76,32 +78,33 @@ public class CelestialCraft {
 	@Mod.EventHandler
 	public void serverStarting(FMLServerStartingEvent evt) {
 		
-		File invalidFile = new File("CelestialData" + sep + "invalidPlayerData.bin");
+		dataDir = new File("saves" + sep + evt.getServer().getWorldName() + sep + "CelestialData");
+		
+		playerData = new File(dataDir.getPath() + sep + "PlayerData.bin");
+		playerBackUp = new File(dataDir.getPath() + sep + "PlayerDataBackUp.bin");
 		
 		if (!playerData.exists()) {
 			playerData.getParentFile().mkdirs();
-			PlayerCeC.addMasterPlayer();
+			PlayerCeC.addMasterPlayer(evt.getServer().getEntityWorld());
 			
 		} else {
 			try {
 				PlayerCeC.loadListFromFile(playerData);
-			} catch(Exception e) {
+			}
+			catch(Exception e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
 				if (e instanceof InvalidFileException)
 					System.out.println(((InvalidFileException) e).checkInvalidFile().toPath());
-				
-				playerData.renameTo(invalidFile);
-				serverStarting(evt);
 			}
 		}
+		
 	}
 	
 	@Mod.EventHandler
 	public void serverStopping(FMLServerStoppingEvent evt) {
 		try {
-			File oldFile = new File("CelestialData" + sep + "oldPlayerData.bin");
-			PlayerCeC.saveListIntoFile(playerData, oldFile);
+			PlayerCeC.saveListIntoFile(playerData, playerBackUp);
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

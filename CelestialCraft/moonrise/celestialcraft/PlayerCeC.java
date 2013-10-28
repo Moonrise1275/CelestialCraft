@@ -9,15 +9,19 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
+import javax.sound.sampled.LineUnavailableException;
+
 import moonrise.celestialcraft.exception.InvalidFileException;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import net.minecraftforge.common.FakePlayer;
+import net.minecraftforge.common.FakePlayerFactory;
 
 public class PlayerCeC {
 	
 	//----------------------------------statics-----------------------------------------------
 	
-	private static HashMap<String, PlayerCeC> playerList;
+	private static HashMap<String, PlayerCeC> playerList = new HashMap<String, PlayerCeC>();
 	
 	public static HashMap<String, PlayerCeC> getList() {
 		return playerList;
@@ -42,11 +46,11 @@ public class PlayerCeC {
 		return true;
 	}
 	
-	public static void addMasterPlayer() {
-		FakePlayer master = new FakePlayer(null, "Master_Astronomer");
-		if (!addPlayer(master))
+	public static void addMasterPlayer(World world) {
+		FakePlayer master = new FakePlayer(world, "Master_Astronomer");
+		if (!addPlayer((EntityPlayer)master))
 			return;
-
+		
 		PlayerCeC masterPlayer = getPlayer(master.username);
 		
 		HashMap<String, ResearchInfo> researchList = masterPlayer.researchMap;
@@ -72,7 +76,7 @@ public class PlayerCeC {
 			playerList.putAll(playerMap);
 			
 		} else {
-			throw new InvalidFileException(file);
+			//throw new InvalidFileException(file);
 		}
 		
 	}
@@ -98,8 +102,8 @@ public class PlayerCeC {
 	private int researchPoint_Engineering;
 	private int researchPoint_Material;
 	
-	private HashMap<String, ResearchInfo> researchMap;
-	private HashMap<String, StellarInfo> stellarMap;
+	private HashMap<String, ResearchInfo> researchMap = new HashMap<String, ResearchInfo>();
+	private HashMap<String, StellarInfo> stellarMap   = new HashMap<String, StellarInfo>();
 	
 	
 	private PlayerCeC(EntityPlayer player) {
@@ -151,7 +155,7 @@ public class PlayerCeC {
 	//someone should fill this method, hahaha
 	private void initStellarMap() {
 		
-		add("Polaris", 5, 5, 5, null);
+		add("Polaris", 5, 5, 5, "");
 		
 		
 		

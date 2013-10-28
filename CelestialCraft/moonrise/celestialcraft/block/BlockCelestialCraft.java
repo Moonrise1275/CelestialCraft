@@ -8,10 +8,8 @@ import net.minecraft.creativetab.CreativeTabs;
 
 public class BlockCelestialCraft extends SimpleBlock {
 	
-	static IModInfo info = new ModInfo();
-
 	public BlockCelestialCraft(int id, String name) {
-		super(id, name, info, CelestialCraft.tabCeC);
+		super(id, name, new ModInfo(), CelestialCraft.tabCeC);
 	}
 
 }

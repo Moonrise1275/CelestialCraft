@@ -22,6 +22,7 @@ public class SimpleBlock extends Block {
 		setCreativeTab(tab);
 		setUnlocalizedName(name);
 		this.info = info;
+		this.icons = new Icon[6];
 	}
 	
 	@SideOnly(Side.CLIENT)
