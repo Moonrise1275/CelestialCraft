@@ -55,7 +55,7 @@ public class ConfigHandler {
 		this.idBlockAntenna = config.getBlock("Antenna", ++block).getInt();
 		this.idBlockReceiver = config.getBlock("Receiver", ++block).getInt();
 		
-		this.antennaDistance = (float) config.get(general, "Antenna_Distance", 8.0).getDouble(8.0);
+		this.antennaDistance = (float) config.get(general, "Antenna_Distance", 800.0).getDouble(800.0);
 		this.receiverExplosionStrength = (float) config.get(general, "Receiver_Explosion_Strength", 3.5).getDouble(3.5);
 		
 	}

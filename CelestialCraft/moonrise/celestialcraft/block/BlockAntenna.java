@@ -21,12 +21,14 @@ public class BlockAntenna extends BlockCelestialCraft {
 
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase mayPlayer, ItemStack item) {
-		BlockPlaceEvent event = new BlockPlaceEvent(new Coord(x, y, z), this.blockID, item.getItemDamage());
-		MinecraftForge.EVENT_BUS.post(event);
 		
 		if (!(mayPlayer instanceof EntityPlayer)) {
 			world.destroyBlock(x, y, z, true);
+			return;
 		} 
+		
+		BlockPlaceEvent event = new BlockPlaceEvent(new Coord(x, y, z), this.blockID, item.getItemDamage());
+		MinecraftForge.EVENT_BUS.post(event);
 			
 	}
 	

@@ -53,7 +53,7 @@ public class ModItems {
 	public static void registerRecipes() {
 		CraftingUtil.addRecipe(ModItems.itemTelescope, "  L", " W ", "L  ", 'L', itemLense, 'W', Block.wood);
 		CraftingUtil.addRecipe(ModBlocks.blockReceiver, "S", "T", 'S', itemTelescope, 'T', Block.enchantmentTable);
-		CraftingUtil.addRecipe(ModBlocks.blockAntenna, "L", "T", 'L', itemLense, "T", Block.enchantmentTable);
+		CraftingUtil.addRecipe(ModBlocks.blockAntenna, "L", "T", 'L', itemLense, 'T', Block.enchantmentTable);
 		
 		CraftingUtil.addSmelting(Block.glass, itemLense, 5);
 	}

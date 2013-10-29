@@ -29,17 +29,23 @@ public class TileReceiver extends TileCeC {
 	@Override
 	@ForgeSubscribe
 	public void someBlockPlaced(BlockPlaceEvent event) {
+		System.out.println("BlockPlaceEvent is occured!");
+		System.out.println(event.id + " , " + event.meta);
 		if (event.id == ConfigHandler.getInst().idBlockAntenna) {
+			System.out.println("Placed block is Antenna");
 			double distance = event.coord.getDistance(xCoord, yCoord, zCoord);
-			if (event.coord.getY() == this.yCoord && distance <= ConfigHandler.getInst().antennaDistance) {
+			if (event.coord.getY() == this.yCoord && distance <= (double) ConfigHandler.getInst().antennaDistance) {
+				System.out.println("Add antenna to receiver");
 				antennaList.add(event.coord);
 			}
 		} else if (event.id == ConfigHandler.getInst().idBlockReceiver) {
+			System.out.println("Placed block is Receiver");
 			double distance = event.coord.getDistance(xCoord, yCoord, zCoord);
-			if (distance <= 2* ConfigHandler.getInst().antennaDistance) {
-				this.worldObj.spawnEntityInWorld(new EntityBomb(this.worldObj, event.coord, 1, ConfigHandler.getInst().receiverExplosionStrength));
+			if (distance <= 2* ConfigHandler.getInst().antennaDistance && event.coord != new Coord(this.xCoord, this.yCoord, this.zCoord)) {
+				//this.worldObj.spawnEntityInWorld(new EntityBomb(this.worldObj, event.coord, 1, ConfigHandler.getInst().receiverExplosionStrength));
+				System.out.println("BOOOOOOOOOOOOOM");
 			}
-		}
+		} else System.out.println("Notthing is occured!");
 	}
 	
 	@Override
