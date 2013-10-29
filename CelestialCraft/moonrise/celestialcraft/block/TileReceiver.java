@@ -43,6 +43,7 @@ public class TileReceiver extends TileCeC {
 	}
 	
 	@Override
+	@ForgeSubscribe
 	public void someBlockBroken(BlockBreakEvent event) {
 		if (event.id ==  ConfigHandler.getInst().idBlockAntenna && antennaList.contains(event.coord)) {
 			antennaList.remove(event.coord);

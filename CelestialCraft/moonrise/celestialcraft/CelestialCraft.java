@@ -98,7 +98,7 @@ public class CelestialCraft {
 					System.out.println(((InvalidFileException) e).checkInvalidFile().toPath());
 			}
 		}
-		
+
 	}
 	
 	@Mod.EventHandler

@@ -43,7 +43,7 @@ public class BlockReceiver extends BlockCelestialCraft implements ITileEntityPro
 			tile = (TileReceiver) world.getBlockTileEntity(x, y, z);
 		} else return false;
 		
-		player.addChatMessage("Current stored cosmic ray : " + this.energy);
+		player.addChatMessage("Current stored star light : " + this.energy);
 		
 		player.addChatMessage("List of all linked antenna");
 		
@@ -51,7 +51,7 @@ public class BlockReceiver extends BlockCelestialCraft implements ITileEntityPro
 			player.addChatMessage(antenna.toString());
 		}
 		
-		player.addChatMessage("End of list");
+		player.addChatMessage("this block has " + tile.getAntennaList().size() + " antennas");
 		
 		return true;
 	}
