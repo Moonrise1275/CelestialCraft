@@ -24,11 +24,16 @@ public class BlockReceiver extends BlockCelestialCraft implements ITileEntityPro
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack item) {
-		BlockPlaceEvent evt = new BlockPlaceEvent(new Coord(x, y, z), item.itemID, item.getItemDamage());
-		MinecraftForge.EVENT_BUS.post(evt);
+		//BlockPlaceEvent evt = new BlockPlaceEvent(new Coord(x, y, z), item.itemID, item.getItemDamage());
+		//MinecraftForge.EVENT_BUS.post(evt);
 		
 		if (entity instanceof EntityPlayer)
 			this.player = (EntityPlayer) entity;
+	}
+	
+	@Override
+	public boolean hasTileEntity(int meta) {
+		return true;
 	}
 
 	@Override
@@ -40,9 +45,12 @@ public class BlockReceiver extends BlockCelestialCraft implements ITileEntityPro
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		TileReceiver tile;
+		
 		if (world.getBlockTileEntity(x, y, z) instanceof TileReceiver) {
 			tile = (TileReceiver) world.getBlockTileEntity(x, y, z);
 		} else return false;
+
+		tile.showCoord();
 		
 		player.addChatMessage("Current stored star light : " + this.energy);
 		
@@ -57,5 +65,7 @@ public class BlockReceiver extends BlockCelestialCraft implements ITileEntityPro
 		
 		return true;
 	}
+
+	
 
 }

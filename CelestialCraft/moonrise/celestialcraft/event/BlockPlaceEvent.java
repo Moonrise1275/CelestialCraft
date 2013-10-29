@@ -1,7 +1,9 @@
 package moonrise.celestialcraft.event;
 
+import net.minecraftforge.event.Cancelable;
 import moonrise.util.Coord;
 
+@Cancelable
 public class BlockPlaceEvent extends CeCEvent {
 	
 	public Coord coord;
@@ -12,6 +14,7 @@ public class BlockPlaceEvent extends CeCEvent {
 		this.coord = coord;
 		this.id = id;
 		this.meta = meta;
+		
 	}
 
 }

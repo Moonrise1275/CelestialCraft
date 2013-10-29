@@ -39,5 +39,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block, block.getUnlocalizedName());
 		LanguageRegistry.addName(block, block.getUnlocalizedName());
 	}
+	
+	public static void registerTileEntity() {
+		GameRegistry.registerTileEntity(TileReceiver.class, "TileReceiver");
+		
+	}
 
 }

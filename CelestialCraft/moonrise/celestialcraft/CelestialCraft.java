@@ -65,6 +65,7 @@ public class CelestialCraft {
 		ModItems.init();
 		ModBlocks.init();
 		ModItems.registerRecipes();
+		ModBlocks.registerTileEntity();
 		
 	}
 	

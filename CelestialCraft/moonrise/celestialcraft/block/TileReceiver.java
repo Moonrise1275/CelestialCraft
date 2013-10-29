@@ -24,10 +24,15 @@ public class TileReceiver extends TileCeC {
 	
 	public TileReceiver() {
 		//this.player = player;
+		this.showCoord();
+		
+	}
+	
+	public void showCoord() {
+		System.out.println(this.worldObj != null);
 		System.out.println(this.xCoord);
 		System.out.println(this.yCoord);
 		System.out.println(this.zCoord);
-		
 	}
 	
 	@Override
@@ -38,6 +43,7 @@ public class TileReceiver extends TileCeC {
 		if (event.id == ConfigHandler.getInst().idBlockAntenna) {
 			System.out.println("[CelestialCraft] Placed block is Antenna");
 			double distance = event.coord.getDistance(xCoord, yCoord, zCoord);
+			showCoord();
 			System.out.println(event.coord.intY() + " != " + this.yCoord);
 			if (event.coord.getY() == this.yCoord && distance <= (double) ConfigHandler.getInst().antennaDistance) {
 				System.out.println("[CelestialCraft] Add antenna to receiver");
@@ -52,6 +58,8 @@ public class TileReceiver extends TileCeC {
 				//System.out.println("BOOOOOOOOOOOOOM");
 			}
 		} else System.out.println("Notthing is occured!");
+		
+		//event.setCanceled(true);
 	}
 	
 	@Override
@@ -64,6 +72,7 @@ public class TileReceiver extends TileCeC {
 	
 	@Override
 	public void updateEntity() {
+		
 		int energyProduce = 0;
 		
 		for (Coord antenna : antennaList) {
