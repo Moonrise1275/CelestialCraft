@@ -24,26 +24,32 @@ public class TileReceiver extends TileCeC {
 	
 	public TileReceiver() {
 		//this.player = player;
+		System.out.println(this.xCoord);
+		System.out.println(this.yCoord);
+		System.out.println(this.zCoord);
+		
 	}
 	
 	@Override
 	@ForgeSubscribe
 	public void someBlockPlaced(BlockPlaceEvent event) {
-		System.out.println("BlockPlaceEvent is occured!");
+		System.out.println("[CelestialCraft] BlockPlaceEvent is occured!");
 		System.out.println(event.id + " , " + event.meta);
 		if (event.id == ConfigHandler.getInst().idBlockAntenna) {
-			System.out.println("Placed block is Antenna");
+			System.out.println("[CelestialCraft] Placed block is Antenna");
 			double distance = event.coord.getDistance(xCoord, yCoord, zCoord);
+			System.out.println(event.coord.intY() + " != " + this.yCoord);
 			if (event.coord.getY() == this.yCoord && distance <= (double) ConfigHandler.getInst().antennaDistance) {
-				System.out.println("Add antenna to receiver");
+				System.out.println("[CelestialCraft] Add antenna to receiver");
 				antennaList.add(event.coord);
+				System.out.println("[CelestialCraft] " + antennaList.size());
 			}
 		} else if (event.id == ConfigHandler.getInst().idBlockReceiver) {
 			System.out.println("Placed block is Receiver");
 			double distance = event.coord.getDistance(xCoord, yCoord, zCoord);
 			if (distance <= 2* ConfigHandler.getInst().antennaDistance && event.coord != new Coord(this.xCoord, this.yCoord, this.zCoord)) {
 				//this.worldObj.spawnEntityInWorld(new EntityBomb(this.worldObj, event.coord, 1, ConfigHandler.getInst().receiverExplosionStrength));
-				System.out.println("BOOOOOOOOOOOOOM");
+				//System.out.println("BOOOOOOOOOOOOOM");
 			}
 		} else System.out.println("Notthing is occured!");
 	}
@@ -62,7 +68,7 @@ public class TileReceiver extends TileCeC {
 		
 		for (Coord antenna : antennaList) {
 			CelestialCraft.proxy.renderRay(new Coord(xCoord, yCoord, zCoord), antenna);
-			energyProduce += this.worldObj.getBlockMetadata(antenna.getX(), antenna.getY(), antenna.getZ());
+			energyProduce += this.worldObj.getBlockMetadata(antenna.intX(), antenna.intY(), antenna.intZ());
 		}
 		this.addEnergy(energyProduce);
 	}
@@ -73,7 +79,7 @@ public class TileReceiver extends TileCeC {
 		nbtTag.setInteger("Size", antennaList.size());
 		int i=0;
 		for (Coord antenna : antennaList) {
-			nbtTag.setIntArray("Antenna" + i++, antenna.toArray());
+			nbtTag.setIntArray("Antenna" + i++, antenna.toIntArray());
 		}
 	}
 	

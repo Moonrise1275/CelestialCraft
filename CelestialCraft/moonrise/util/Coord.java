@@ -1,13 +1,25 @@
 package moonrise.util;
 
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
+
 public class Coord {
 	
-	private int x, y, z;
+	private double x, y, z;
+	private ForgeDirection direction;
 	
-	public Coord (int x, int y, int z) {
+	public Coord (double x, double y, double z, ForgeDirection direction) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.direction = direction;
+	}
+	public Coord (double x, double y, double z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.direction = ForgeDirection.UNKNOWN;
 	}
 	public Coord (Coord other) {
 		this(other.getX(), other.getY(), other.getZ());
@@ -15,33 +27,63 @@ public class Coord {
 	public Coord (int[] other) {
 		this(other[0], other[1], other[2]);
 	}
+	public Coord(TileEntity tile) {
+		this(tile.xCoord, tile.yCoord, tile.zCoord);
+	}
 	
-	public int getX() {
+	public double getX() {
 		return x;
 	}
-	public int getY() {
+	public double getY() {
 		return y;
 	}
-	public int getZ() {
+	public double getZ() {
 		return z;
 	}
+	public ForgeDirection getDir() {
+		return direction;
+	}
 	
-	public float getCenterX() {
-		return x + 0.5F;
+	public int intX() {
+		return new Double(this.x).intValue();
 	}
-	public float getCenterY() {
-		return y + 0.5F;
+	public int intY() {
+		return new Double(this.y).intValue();
 	}
-	public float getCenterZ() {
-		return z + 0.5F;
+	public int intZ() {
+		return new Double(this.z).intValue();
+	}
+	
+	public Coord getCenter(Coord other) {
+		Coord center = new Coord((this.x + other.getX())/2, (this.y + other.getY())/2, (this.z + other.getCenterZ())/2);
+		return center;
+	}
+	
+	public double getCenterX() {
+		return x + 0.5;
+	}
+	public double getCenterY() {
+		return y + 0.5;
+	}
+	public double getCenterZ() {
+		return z + 0.5;
 	}
 	
 	public double getDistance(Coord otherCoord) {
-		return Math.sqrt( (x*x) + (y*y) + (z*z) );
+		return this.getDistance(otherCoord.x, otherCoord.y, otherCoord.z);
 	}
-	public double getDistance(int xCoord, int yCoord, int zCoord) {
-		return this.getDistance(new Coord(xCoord, yCoord, zCoord));
+	public double getDistance(double xCoord, double yCoord, double zCoord) {
+		return Math.sqrt(x * xCoord + y * yCoord + z * zCoord);
 	}
+	
+	public Coord getMax(Coord other) {
+		return new Coord(Math.max(this.x, other.getX()), Math.max(this.y, other.getY()), Math.max(this.z, other.getZ()));
+	}
+	public Coord getMin(Coord other) {
+		return new Coord(Math.min(this.x, other.getX()), Math.min(this.y, other.getY()), Math.min(this.z, other.getZ()));
+	}
+	
+	
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -50,7 +92,8 @@ public class Coord {
 			Coord other = (Coord) obj;
 			if (other.getX() == this.getX() &&
 				other.getY() == this.getY() &&
-				other.getZ() == this.getZ()) {
+				other.getZ() == this.getZ() &&
+				other.getDir() == this.getDir()) {
 				return true;
 			}
 		}
@@ -62,17 +105,17 @@ public class Coord {
 		return "Coord:(" + x + "," + y + "," + z + ")";
 	}
 	
-	public int[] toArray() {
+	public int[] toIntArray() {
 		int[] array = new int[3];
-		array[0] = x;
-		array[1] = y;
-		array[2] = z;
+		array[0] = this.intX();
+		array[1] = this.intY();
+		array[2] = this.intZ();
 		return array;
 	}
 	
 	@Override
 	public int hashCode() {
-		return y;
+		return new Double(y).hashCode();
 	}
 
 }

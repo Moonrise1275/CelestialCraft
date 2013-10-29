@@ -33,7 +33,7 @@ public class BlockReceiver extends BlockCelestialCraft implements ITileEntityPro
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		System.out.println("Create TileReceiver");
+		//System.out.println("Create TileReceiver");
 		return new TileReceiver();
 	}
 	
@@ -49,7 +49,7 @@ public class BlockReceiver extends BlockCelestialCraft implements ITileEntityPro
 		player.addChatMessage("List of all linked antenna");
 		
 		for (Object antenna : tile.getAntennaList().toArray()) {
-			System.out.println("antenna is " + antenna.toString());
+			//System.out.println("antenna is " + antenna.toString());
 			player.addChatMessage("antenna is " + antenna.toString());
 		}
 		
