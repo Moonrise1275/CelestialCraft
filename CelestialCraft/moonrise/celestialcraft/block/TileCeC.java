@@ -7,10 +7,20 @@ import net.minecraftforge.event.ForgeSubscribe;
 
 public class TileCeC extends TileEntity {
 	
-	@ForgeSubscribe
-	public void someBlockPlaced(BlockPlaceEvent event) {}
-	
-	@ForgeSubscribe
-	public void someBlockBroken(BlockBreakEvent event) {}
+	@Override
+	public boolean equals(Object obj) {
+		if (this.getClass() == obj.getClass()) {
+			if (obj instanceof TileCeC) {
+				TileCeC tile = (TileCeC) obj;
+				if (tile.xCoord == this.xCoord) {
+					if (tile.yCoord == this.yCoord) {
+						if (tile.zCoord == this.zCoord)
+							return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 }

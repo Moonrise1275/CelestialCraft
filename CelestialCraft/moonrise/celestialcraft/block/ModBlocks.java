@@ -4,16 +4,16 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import moonrise.celestialcraft.handler.ConfigHandler;
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
 
 public class ModBlocks {
 	
 	private static ModBlocks instance;
 	
-	public static Block blockAntenna, blockReceiver;
+	public static Block blockStarLightAlter;
 	
 	public static String
-	nameAntenna = "Antenna",
-	nameReceiver = "Receiver";
+	nameStarLightAlter = "StarLightAlter";
 	
 	private static ConfigHandler config;
 	
@@ -29,19 +29,14 @@ public class ModBlocks {
 		
 		config = ConfigHandler.getInst();
 		
-		blockAntenna = new BlockAntenna(config.idBlockAntenna, nameAntenna);
-		register(blockAntenna);
-		blockReceiver = new BlockReceiver(config.idBlockReceiver, nameReceiver);
-		register(blockReceiver);
+		blockStarLightAlter = new BlockStarLightAlter(config.idBlockAntenna, nameStarLightAlter);
+		GameRegistry.registerBlock(blockStarLightAlter, nameStarLightAlter);
 	}
 	
-	private static void register(Block block) {
-		GameRegistry.registerBlock(block, block.getUnlocalizedName());
-		LanguageRegistry.addName(block, block.getUnlocalizedName());
-	}
 	
 	public static void registerTileEntity() {
-		GameRegistry.registerTileEntity(TileReceiver.class, "TileReceiver");
+		GameRegistry.registerTileEntity(TileStarLightAlter.class, "TileStarLightAlter");
+		GameRegistry.registerTileEntity(TileStarLightReflector.class, "TileStarLightReflector");
 		
 	}
 

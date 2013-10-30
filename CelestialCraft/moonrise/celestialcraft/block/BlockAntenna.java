@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-
+@Deprecated
 public class BlockAntenna extends BlockCelestialCraft {
 	
 

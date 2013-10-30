@@ -13,7 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.ForgeSubscribe;
-
+@Deprecated
 public class TileReceiver extends TileCeC {
 	
 	public static final int MAX_ENERGY = 64000;
@@ -35,7 +35,6 @@ public class TileReceiver extends TileCeC {
 		System.out.println(this.zCoord);
 	}
 	
-	@Override
 	@ForgeSubscribe
 	public void someBlockPlaced(BlockPlaceEvent event) {
 		System.out.println("[CelestialCraft] BlockPlaceEvent is occured!");
@@ -62,7 +61,6 @@ public class TileReceiver extends TileCeC {
 		//event.setCanceled(true);
 	}
 	
-	@Override
 	@ForgeSubscribe
 	public void someBlockBroken(BlockBreakEvent event) {
 		if (event.id ==  ConfigHandler.getInst().idBlockAntenna && antennaList.contains(event.coord)) {

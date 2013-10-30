@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
 
+@Deprecated
 public class BlockReceiver extends BlockCelestialCraft implements ITileEntityProvider {
 	
 	private EntityPlayer player;
