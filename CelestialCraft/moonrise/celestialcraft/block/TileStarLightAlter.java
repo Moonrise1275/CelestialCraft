@@ -26,14 +26,15 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 	@Override
 	public void updateEntity() {
 		addEnergy();
-		chargeTool();
-		sendEnergy();
+		chargeTool(10);
+		sendEnergy(10);
 	}
 	
 	
 	
 	public void addReflector(TileStarLightReflector tile) {
 		this.reflectors.add(tile);
+		System.out.println("Reflector is added");
 	}
 	
 	private void addEnergy() {
@@ -53,11 +54,15 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 		return this.item == null;
 	}
 	
-	private void chargeTool() {
-		
+	private void chargeTool(int i) {
+		if (this.item != null && item.getItem() instanceof IToolStarLight) {
+			IToolStarLight tool = (IToolStarLight) item.getItem();
+			if (!tool.isFull(item))
+				tool.charge(item, i);
+		}
 	}
 	
-	private void sendEnergy() {
+	private void sendEnergy(int i) {
 		
 	}
 	
@@ -68,6 +73,14 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 	}
 	public void removeReflector(TileStarLightReflector tile) {
 		this.reflectors.remove(tile);
+	}
+	
+	public int getEnergy() {
+		return this.energy;
+	}
+	
+	public HashSet<TileStarLightReflector> getReflectors() {
+		return this.reflectors;
 	}
 	
 	public void printReflectors() {
@@ -87,7 +100,11 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		return this.item;
+		if (this.item == null)
+			return null;
+		ItemStack cpy = this.item.copy();
+		this.item = null;
+		return cpy;
 	}
 
 	@Override
@@ -97,7 +114,7 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
-		return this.item;
+		return this.getStackInSlot(i);
 	}
 
 	@Override
@@ -139,7 +156,7 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		if (itemstack.getItem() instanceof IToolStarLight)
 			return true;
-		return true;
+		return false;
 	}
 	
 }

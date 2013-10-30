@@ -3,6 +3,7 @@ package moonrise.celestialcraft.item;
 import java.util.List;
 
 import moonrise.celestialcraft.handler.ConfigHandler;
+import moonrise.celestialcraft.interfaces.IToolStarLight;
 import moonrise.celestialcraft.skyobject.SkyUtil;
 import moonrise.util.PlayerUtil;
 import net.minecraft.block.Block;
@@ -20,7 +21,10 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemTelescope extends ItemCelestialCraft {
+public class ItemTelescope extends ItemCelestialCraft implements IToolStarLight {
+	
+	private int energy;
+	public static final int[] MAX_ENERGY = { 400, 400, 400, 400, 400, 400, 400, 400, 400  };
 	
 	@SideOnly(Side.CLIENT)
 	private Icon[] icons = new Icon[SCOPE_LENGTH];
@@ -30,6 +34,7 @@ public class ItemTelescope extends ItemCelestialCraft {
 	public ItemTelescope(int id, String name) {
 		super(id, name);
 		this.setMaxStackSize(1);
+		this.energy = 0;
 	}
 	
 	@Override
@@ -103,6 +108,32 @@ public class ItemTelescope extends ItemCelestialCraft {
 	SCOPE_GREATWOOD = 7,
 	SCOPE_SILVERWOOD = 8,
 	SCOPE_LENGTH = 9;
+
+	//   IToolStarLight
+	
+	@Override
+	public void charge(ItemStack item, int amount) {
+		if ((this.energy + amount) >= this.MAX_ENERGY[item.getItemDamage()]) {
+			this.energy = this.MAX_ENERGY[item.getItemDamage()];
+		}
+		this.energy += amount;
+	}
+
+	@Override
+	public boolean isFull(ItemStack item) {
+		return this.energy >= this.MAX_ENERGY[item.getItemDamage()]; 
+	}
+
+	@Override
+	public int drain(ItemStack item, int amount) {
+		if (this.energy <= amount) {
+			Integer e = new Integer(energy);
+			this.energy = 0;
+			return e;
+		}
+		this.energy -= amount;
+		return amount;
+	}
 
 
 }

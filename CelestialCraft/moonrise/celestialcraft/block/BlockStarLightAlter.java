@@ -2,9 +2,12 @@ package moonrise.celestialcraft.block;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import moonrise.celestialcraft.CelestialCraft;
 import moonrise.celestialcraft.interfaces.IToolStarLight;
 import moonrise.celestialcraft.item.ModItems;
+import moonrise.util.EntityUtil;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,14 +29,19 @@ public class BlockStarLightAlter extends BlockTileCeC {
 		
 		if (meta == 0) {
 			if (tile instanceof TileStarLightAlter) {
-				if (!((TileStarLightAlter) tile).isEmpty()) {
-					player.dropPlayerItem(((TileStarLightAlter) tile).getStackInSlot(0));
+				if(hand ==null && player.isSneaking()){
+					player.addChatMessage("Number of linked reflectors is " + ((TileStarLightAlter)tile).getReflectors().size());
+					player.addChatMessage("Amount of currently stored starlight is " + ((TileStarLightAlter)tile).getEnergy());
 				}
 				else
-				if (hand != null){// && hand.getItem() instanceof IToolStarLight) {
+				if (!((TileStarLightAlter) tile).isEmpty()) {
+					EntityUtil.dropItem(((TileStarLightAlter) tile).getStackInSlot(0), tile);
+				}
+				else
+				if (hand != null && ((TileStarLightAlter)tile).isItemValidForSlot(0, hand)) {
 					ItemStack newItem = player.getCurrentEquippedItem().copy();
 					newItem.stackSize = 1;
-					((TileStarLightAlter) tile).setInventorySlotContents(0, newItem);
+					((TileStarLightAlter) tile).setInventorySlotContents(0, newItem.copy());
 					newItem.stackSize = player.getCurrentEquippedItem().stackSize -1;
 					player.setCurrentItemOrArmor(0, newItem);
 				}
@@ -50,7 +58,8 @@ public class BlockStarLightAlter extends BlockTileCeC {
 		
 		return false;
 	}
-	
+		
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubBlocks(int id, CreativeTabs tab, List list) {
 		list.add(new ItemStack(id, 1, 0));
@@ -68,26 +77,31 @@ public class BlockStarLightAlter extends BlockTileCeC {
 	@Override
 	public void breakBlock(World world, int x, int y, int z, int id, int meta) {
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
-		if (tile instanceof TileStarLightAlter)
+		if (tile instanceof TileStarLightAlter) {
+			EntityUtil.dropItem(((TileStarLightAlter) tile).getStackInSlot(0), tile);
 			((TileStarLightAlter) tile).removeAlter();
+		}
 		world.removeBlockTileEntity(x, y, z);
 	}
 
 	@Override
 	public TileEntity createTileEntity(World world, int meta) {
-		//System.out.println("meta is " + meta);
+		System.out.println("meta is " + meta);
 		switch(meta) {
 		
 		case 0:
-			//System.out.println("Alter is created");
+			System.out.println("Alter is created");
 			return new TileStarLightAlter();
 			
 		case 1:
-			//ystem.out.println("Reflector is created");
+		case 2:
+		case 3:
+		case 4:
+			System.out.println("Reflector is created");
 			return new TileStarLightReflector();
 			
 		default :
-			//System.out.println("Nothing!!");
+			System.out.println("Nothing!!");
 			return null;
 		
 		}

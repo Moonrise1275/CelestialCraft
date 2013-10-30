@@ -1,5 +1,6 @@
 package moonrise.util;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -26,6 +27,9 @@ public class Coord {
 	}
 	public Coord (int[] other) {
 		this(other[0], other[1], other[2]);
+	}
+	public Coord(Entity entity) {
+		this(entity.posX, entity.posY, entity.posZ);
 	}
 	public Coord(TileEntity tile) {
 		this(tile.xCoord, tile.yCoord, tile.zCoord);
@@ -59,6 +63,9 @@ public class Coord {
 		return center;
 	}
 	
+	public Coord getCenter() {
+		return new Coord(getCenterX(), getCenterY(), getCenterZ());
+	}
 	public double getCenterX() {
 		return x + 0.5;
 	}

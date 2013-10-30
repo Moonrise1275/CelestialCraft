@@ -16,13 +16,18 @@ public class TileStarLightReflector extends TileCeC {
 	public void updateEntity() {
 		if (this.alter == null) {
 			this.alter = searchAlter();
-			if (alter != null)
+			System.out.println("Searching alter");
+			if (alter != null) {
 				alter.addReflector(this);
+				System.out.println("Add reflector");
+			}
 		}
 	}
 	
 	public int getEnergy() {
-		return outputs[this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord)];
+		if (worldObj.canBlockSeeTheSky(xCoord, yCoord, zCoord) && !worldObj.isDaytime())
+			return outputs[this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord)];
+		return 10;
 	}
 	
 	private TileStarLightAlter searchAlter() {
