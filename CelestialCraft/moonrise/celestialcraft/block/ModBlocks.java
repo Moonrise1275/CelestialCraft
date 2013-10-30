@@ -4,6 +4,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import moonrise.celestialcraft.handler.ConfigHandler;
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
 public class ModBlocks {
@@ -13,7 +14,8 @@ public class ModBlocks {
 	public static Block blockStarLightAlter;
 	
 	public static String
-	nameStarLightAlter = "StarLightAlter";
+	nameStarLightAlter = "StarLightAlter",
+	nameStarLightReflector = "StarLightReflector";
 	
 	private static ConfigHandler config;
 	
@@ -29,8 +31,8 @@ public class ModBlocks {
 		
 		config = ConfigHandler.getInst();
 		
-		blockStarLightAlter = new BlockStarLightAlter(config.idBlockAntenna, nameStarLightAlter);
-		GameRegistry.registerBlock(blockStarLightAlter, nameStarLightAlter);
+		blockStarLightAlter = new BlockStarLightAlter(config.idBlockAlter, nameStarLightAlter);
+		GameRegistry.registerBlock(blockStarLightAlter,ItemBlockWithMetadata.class, nameStarLightAlter);
 	}
 	
 	

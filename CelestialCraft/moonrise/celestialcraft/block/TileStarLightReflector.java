@@ -5,7 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 public class TileStarLightReflector extends TileCeC {
 	
 	private TileStarLightAlter alter;
-	public static final String[] types = { "glass", "copper", "silver", "iridium" };
+	public static final String[] types = { "Glass", "Copper", "Silver", "Iridium" };
 	static final int[] outputs = { 10, 20, 50, 100 };
 	
 	public TileStarLightReflector() {
@@ -14,9 +14,11 @@ public class TileStarLightReflector extends TileCeC {
 	
 	@Override
 	public void updateEntity() {
-		if (this.alter == null)
+		if (this.alter == null) {
 			this.alter = searchAlter();
-		
+			if (alter != null)
+				alter.addReflector(this);
+		}
 	}
 	
 	public int getEnergy() {

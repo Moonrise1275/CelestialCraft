@@ -75,15 +75,15 @@ public class ItemTelescope extends ItemCelestialCraft {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerIcons(IconRegister register) {
-		icons[SCOPE_WOOD]       = register.registerIcon(info.getTexturePath() + "SCOPE_WOOD.png");
-		icons[SCOPE_IRON]       = register.registerIcon(info.getTexturePath() + "SCOPE_IRON.png");
-		icons[SCOPE_GOLD]       = register.registerIcon(info.getTexturePath() + "SCOPE_GOLD.png");
-		icons[SCOPE_DIAMOND]    = register.registerIcon(info.getTexturePath() + "SCOPE_DIAMOND.png");
-		icons[SCOPE_ALUMINIUM]  = register.registerIcon(info.getTexturePath() + "SCOPE_ALUMINIUM.png");
-		icons[SCOPE_BRASS]      = register.registerIcon(info.getTexturePath() + "SCOPE_BRASS.png");
-		icons[SCOPE_COPPER]     = register.registerIcon(info.getTexturePath() + "SCOPE_COPPER.png");
-		icons[SCOPE_GREATWOOD]  = register.registerIcon(info.getTexturePath() + "SCOPE_GREATWOOD.png");
-		icons[SCOPE_SILVERWOOD] = register.registerIcon(info.getTexturePath() + "SCOPE_SILVERWOOD.png");
+		icons[SCOPE_WOOD]       = register.registerIcon(info.getTexturePath() + "SCOPE_WOOD");
+		icons[SCOPE_IRON]       = register.registerIcon(info.getTexturePath() + "SCOPE_IRON");
+		icons[SCOPE_GOLD]       = register.registerIcon(info.getTexturePath() + "SCOPE_GOLD");
+		icons[SCOPE_DIAMOND]    = register.registerIcon(info.getTexturePath() + "SCOPE_DIAMOND");
+		icons[SCOPE_ALUMINIUM]  = register.registerIcon(info.getTexturePath() + "SCOPE_ALUMINIUM");
+		icons[SCOPE_BRASS]      = register.registerIcon(info.getTexturePath() + "SCOPE_BRASS");
+		icons[SCOPE_COPPER]     = register.registerIcon(info.getTexturePath() + "SCOPE_COPPER");
+		icons[SCOPE_GREATWOOD]  = register.registerIcon(info.getTexturePath() + "SCOPE_GREATWOOD");
+		icons[SCOPE_SILVERWOOD] = register.registerIcon(info.getTexturePath() + "SCOPE_SILVERWOOD");
 	}
 	
 	@SideOnly(Side.CLIENT)

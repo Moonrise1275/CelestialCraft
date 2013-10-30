@@ -14,9 +14,10 @@ public class ModItems {
 		
 	private static ModItems instance;
 	
-	public static Item itemLense, itemTelescope, itemMap;
+	public static Item itemUpgrade, itemLense, itemTelescope, itemMap;
 	
 	public static String
+	nameUpgrade = "ReflectorUpgrade",
 	nameLense = "Lense",
 	nameScope = "Telescope",
 	nameMap = "CelestialMap";
@@ -35,6 +36,9 @@ public class ModItems {
 	public static void init() {
 		
 		config = ConfigHandler.getInst();
+		
+		itemUpgrade = new ItemReflectorUpgrade(config.idReflectorUpgrade, nameUpgrade);
+		GameRegistry.registerItem(itemUpgrade, nameUpgrade);
 		
 		itemLense = new ItemCelestialCraft(config.idLense, nameLense);
 		GameRegistry.registerItem(itemLense, nameLense);

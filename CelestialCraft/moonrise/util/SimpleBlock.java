@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.Icon;
 
-public class SimpleBlock extends Block {
+public abstract class SimpleBlock extends Block {
 	
 	IModInfo info;
 
@@ -50,8 +50,6 @@ public class SimpleBlock extends Block {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void getSubBlocks(int id, CreativeTabs tab, List list) {
-		
-	}
+	public abstract void getSubBlocks(int id, CreativeTabs tab, List list);
 
 }

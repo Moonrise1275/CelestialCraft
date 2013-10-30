@@ -25,9 +25,10 @@ public class ConfigHandler {
 	idLense,
 	idTelescope,
 	idMap,
+	idReflectorUpgrade,
 	
-	idBlockAntenna,
-	idBlockReceiver;
+	idBlockAlter,
+	idBlockMeta;
 	
 	private ConfigHandler(File file) {
 		this.config = new Configuration(file);
@@ -51,9 +52,10 @@ public class ConfigHandler {
 		this.idLense = config.getItem("Lense", ++item).getInt();
 		this.idTelescope = config.getItem("Telescope", ++item).getInt();
 		this.idMap = config.getItem("CelestialMap", ++item).getInt();
+		this.idReflectorUpgrade = config.getItem("ReflectorUpgrade", ++item).getInt();
 		
-		this.idBlockAntenna = config.getBlock("Antenna", ++block).getInt();
-		this.idBlockReceiver = config.getBlock("Receiver", ++block).getInt();
+		this.idBlockAlter = config.getBlock("StarlightAlter", ++block).getInt();
+		this.idBlockMeta = config.getBlock("Meta", ++block).getInt();
 		
 		this.antennaDistance = (float) config.get(general, "Antenna_Distance", 800.0).getDouble(800.0);
 		this.receiverExplosionStrength = (float) config.get(general, "Receiver_Explosion_Strength", 3.5).getDouble(3.5);
