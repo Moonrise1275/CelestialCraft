@@ -8,9 +8,9 @@ import net.minecraftforge.common.ForgeDirection;
 public class Coord {
 	
 	private double x, y, z;
-	private ForgeDirection direction;
+	private Vec direction;
 	
-	public Coord (double x, double y, double z, ForgeDirection direction) {
+	public Coord (double x, double y, double z, Vec direction) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -20,10 +20,13 @@ public class Coord {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.direction = ForgeDirection.UNKNOWN;
+		this.direction = Vec.UNKNOWN;
 	}
 	public Coord (Coord other) {
 		this(other.getX(), other.getY(), other.getZ());
+	}
+	public Coord (double[] other) {
+		this(other[0], other[1], other[2]);
 	}
 	public Coord (int[] other) {
 		this(other[0], other[1], other[2]);
@@ -44,7 +47,7 @@ public class Coord {
 	public double getZ() {
 		return z;
 	}
-	public ForgeDirection getDir() {
+	public Vec getDir() {
 		return direction;
 	}
 	
@@ -76,6 +79,10 @@ public class Coord {
 		return z + 0.5;
 	}
 	
+	public Coord getCenterPoint(Coord other) {
+		return new Coord((x+other.x)/2, (y+other.y)/2, (z+other.z)/2);
+	}
+	
 	public double getDistance(Coord otherCoord) {
 		return this.getDistance(otherCoord.x, otherCoord.y, otherCoord.z);
 	}
@@ -90,6 +97,12 @@ public class Coord {
 		return new Coord(Math.min(this.x, other.getX()), Math.min(this.y, other.getY()), Math.min(this.z, other.getZ()));
 	}
 	
+	public Coord add(double x, double y, double z) {
+		return new Coord(this.x + x, this.y + y, this.z + z);
+	}
+	public Coord add(Vec vec) {
+		return this.add(vec.x, vec.y, vec.z);
+	}
 	
 	
 	@Override
