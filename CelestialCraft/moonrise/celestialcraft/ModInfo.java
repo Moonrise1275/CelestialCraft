@@ -19,6 +19,9 @@ public class ModInfo implements IModInfo {
 	
 	public static final String TEXTURE_PATH = "CelestialCraft:";
 	
+	
+	
+	
 	@Override
 	public String getModId() {
 		return this.MOD_ID;

@@ -15,6 +15,7 @@ import net.minecraft.util.Icon;
 public abstract class SimpleBlock extends Block {
 	
 	IModInfo info;
+	Boolean isSimpleTexture;
 
 	public SimpleBlock(int id, String name, IModInfo info, CreativeTabs tab) {
 		super(id, Material.rock);
@@ -23,29 +24,49 @@ public abstract class SimpleBlock extends Block {
 		setUnlocalizedName(name);
 		this.info = info;
 		this.icons = new Icon[6];
+		this.isSimpleTexture = false;
+	}
+	
+	protected void setSimpleTexture() {
+		this.isSimpleTexture = true;
 	}
 	
 	@SideOnly(Side.CLIENT)
 	private Icon[] icons;
 	@SideOnly(Side.CLIENT)
-	public static interface Sides {
-		int BOT = 0, TOP = 1;
-	}
+	private Icon simple;
 	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerIcons(IconRegister register) {
-		icons[Sides.TOP] = register.registerIcon(info.getTexturePath() + this.getUnlocalizedName() + "_Top");
-		icons[Sides.BOT] = register.registerIcon(info.getTexturePath() + this.getUnlocalizedName() + "_Bot");
-		for (int i=2; i < 6; i++) {
-			icons[i] = register.registerIcon(info.getTexturePath() + this.getUnlocalizedName() + "_Sides");
+		if (this.isSimpleTexture) {
+			this.simple = register.registerIcon(info.getTexturePath() + this.getUnlocalizedName());
+			return;
+		}
+		
+		for (EnumSides side : EnumSides.values()) {
+			Icon i;
+			switch(side) {
+			case top:
+				i = register.registerIcon(info.getTexturePath() + this.getUnlocalizedName() + "_Top");
+				break;
+			case bottom:
+				i = register.registerIcon(info.getTexturePath() + this.getUnlocalizedName() + "_Bottom");
+				break;
+			default:
+				i = register.registerIcon(info.getTexturePath() + this.getUnlocalizedName() + "_Side");
+				break;
+			}
+			this.icons[side.num()] = i;
 		}
 	}
 	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public Icon getIcon(int side, int meta) {
-		return icons[side];
+		if (this.isSimpleTexture)
+			return simple;
+		else return icons[side];
 	}
 	
 	@SideOnly(Side.CLIENT)

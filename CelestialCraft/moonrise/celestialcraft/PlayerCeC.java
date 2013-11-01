@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.HashMap;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -17,11 +18,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.FakePlayer;
 import net.minecraftforge.common.FakePlayerFactory;
 
-public class PlayerCeC {
+public class PlayerCeC implements Serializable {
 	
 	//----------------------------------statics-----------------------------------------------
 	
 	private static HashMap<String, PlayerCeC> playerList = new HashMap<String, PlayerCeC>();
+	public static String MASTER_NAME = "Master_Astronomer";
 	
 	public static HashMap<String, PlayerCeC> getList() {
 		return playerList;
@@ -39,25 +41,27 @@ public class PlayerCeC {
 	}
 	
 	public static boolean addPlayer(EntityPlayer player) {
-		if (playerList.containsKey(player.username))
+		return addPlayer(player.username);
+	}
+	public static boolean addPlayer(String player) {
+		if (playerList.containsKey(player))
 			return false;
 		PlayerCeC newPlayer = new PlayerCeC(player);
-		playerList.put(player.username, newPlayer);
+		playerList.put(player, newPlayer);
 		return true;
 	}
 	
 	public static void addMasterPlayer(World world) {
-		FakePlayer master = new FakePlayer(world, "Master_Astronomer");
-		if (!addPlayer((EntityPlayer)master))
+		if (!addPlayer(MASTER_NAME))
 			return;
 		
-		PlayerCeC masterPlayer = getPlayer(master.username);
+		PlayerCeC masterPlayer = getPlayer(MASTER_NAME);
 		
 		HashMap<String, ResearchInfo> researchList = masterPlayer.researchMap;
 		HashMap<String, StellarInfo>  stellarList  = masterPlayer.stellarMap;
 		
 		for (StellarInfo stellar : stellarList.values()) {
-			stellar.observe(masterPlayer);
+			stellar.observe(masterPlayer, world);
 		}
 		
 		for (ResearchInfo research : researchList.values()) {
@@ -89,7 +93,7 @@ public class PlayerCeC {
 				oldFile.delete();
 			thisFile.renameTo(oldFile);
 		}
-		
+		System.out.println("Saving CelestialData");
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
 		out.writeObject(playerList);
 		
@@ -97,7 +101,7 @@ public class PlayerCeC {
 	
 	//----------------------------- non-statics ----------------------------------------------
 	
-	private EntityPlayer player;
+	private String player;
 	private int researchPoint_Optics;
 	private int researchPoint_Engineering;
 	private int researchPoint_Material;
@@ -107,7 +111,10 @@ public class PlayerCeC {
 	
 	
 	private PlayerCeC(EntityPlayer player) {
-		this.player = player;
+		this(player.username);
+	}
+	private PlayerCeC(String name) {
+		this.player = name;
 		this.researchPoint_Optics = 0;
 		this.researchPoint_Engineering = 0;
 		this.researchPoint_Material = 0;
@@ -142,12 +149,12 @@ public class PlayerCeC {
 	
 	@Override
 	public int hashCode() {
-		return player.username.hashCode();
+		return player.hashCode();
 	}
 	
 	@Override
 	public String toString() {
-		return this.player.username;
+		return this.player;
 	}
 	
 	//---------------------------stellar info class----------------------------------------
@@ -167,7 +174,7 @@ public class PlayerCeC {
 		stellarMap.put(name, new StellarInfo(name, optics, engineering, material, research));
 	}
 	
-	private class StellarInfo {
+	private class StellarInfo implements Serializable {
 		
 		public final String name;
 		public final int getResearchPoint_Optics;
@@ -187,17 +194,20 @@ public class PlayerCeC {
 			this.isObserved = false;
 		}
 		
-		public void observe(PlayerCeC player) {
+		public void observe(PlayerCeC player, World world) {
 			this.isObserved = true;
 			player.researchPoint_Optics += this.getResearchPoint_Optics;
 			player.researchPoint_Engineering += this.getResearchPoint_Engineering;
 			player.researchPoint_Material += this.getResearchPoint_Material;
+			EntityPlayer user = world.getPlayerEntityByName(player.player);
 			
 			for (ResearchInfo research : player.researchMap.values()) {
 				if (!research.isStudied && research.study(player)) {
 					System.out.println("[CelestialCraft] : " + player.toString() + " studied " + research.toString() + "!");
-					player.player.addChatMessage("You found a new research!! it's name is " + research.toString());
-					player.player.addChatMessage("Check your CelestialMap!");
+					if (user != null) {
+						user.addChatMessage("You found a new research!! it's name is " + research.toString());
+						user.addChatMessage("Check your Celestial Map!");
+					}
 				}
 			}
 		}
@@ -224,7 +234,7 @@ public class PlayerCeC {
 		researchMap.put(name, new ResearchInfo(name, icon, optics, engineering, material));
 	}
 	
-	private class ResearchInfo {
+	private class ResearchInfo implements Serializable {
 		
 		private String name;
 		public String icon;

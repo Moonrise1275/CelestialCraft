@@ -26,8 +26,8 @@ public class TileStarLightReflector extends TileCeC {
 	
 	public int getEnergy() {
 		if (worldObj.canBlockSeeTheSky(xCoord, yCoord, zCoord) && !worldObj.isDaytime())
-			return outputs[this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord)];
-		return 10;
+			return outputs[this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord)-1];
+		return 0;
 	}
 	
 	private TileStarLightAlter searchAlter() {

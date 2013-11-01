@@ -39,23 +39,27 @@ public class BlockStarLightAlter extends BlockTileCeC {
 		
 		if (meta == 0) {
 			if (tile instanceof TileStarLightAlter) {
+				TileStarLightAlter alter = (TileStarLightAlter)tile;
 				if(hand ==null && player.isSneaking()){
-					player.addChatMessage("Number of linked reflectors is " + ((TileStarLightAlter)tile).getReflectors().size());
-					player.addChatMessage("Amount of currently stored starlight is " + ((TileStarLightAlter)tile).getEnergy());
+					player.addChatMessage("Number of linked reflectors is " + alter.getReflectors().size());
+					player.addChatMessage("Amount of currently stored starlight is " + alter.getEnergy());
 				}
 				else
-				if (!((TileStarLightAlter) tile).isEmpty()) {
-					EntityUtil.dropItem(((TileStarLightAlter) tile).getStackInSlot(0), tile);
+				if (!alter.isEmpty()) {
+					EntityUtil.dropItem(alter.getStackInSlot(0), tile);
 				}
 				else
-				if (hand != null && ((TileStarLightAlter)tile).isItemValidForSlot(0, hand)) {
+				if (hand != null){// && alter.isItemValidForSlot(0, hand)) {
 					ItemStack newItem = player.getCurrentEquippedItem().copy();
 					newItem.stackSize = 1;
-					((TileStarLightAlter) tile).setInventorySlotContents(0, newItem.copy());
+					alter.setItem(newItem.copy());
 					newItem.stackSize = player.getCurrentEquippedItem().stackSize -1;
+					if (newItem.stackSize <= 0)
+						player.setCurrentItemOrArmor(0, null);
 					player.setCurrentItemOrArmor(0, newItem);
 				}
-			}			
+				System.out.println(alter.printItem());
+			}
 			return true;
 		}else if (meta == 1 || meta == 2 || meta == 3) {
 			if (hand != null) {

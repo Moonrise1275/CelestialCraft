@@ -14,10 +14,11 @@ public class ModItems {
 		
 	private static ModItems instance;
 	
-	public static Item itemUpgrade, itemLense, itemTelescope, itemMap;
+	public static Item itemUpgrade, itemPointer, itemLense, itemTelescope, itemMap;
 	
 	public static String
 	nameUpgrade = "ReflectorUpgrade",
+	namePointer = "LaserPointer",
 	nameLense = "Lense",
 	nameScope = "Telescope",
 	nameMap = "CelestialMap";
@@ -39,6 +40,9 @@ public class ModItems {
 		
 		itemUpgrade = new ItemReflectorUpgrade(config.idReflectorUpgrade, nameUpgrade);
 		GameRegistry.registerItem(itemUpgrade, nameUpgrade);
+		
+		itemPointer = new ItemLaserPointer(config.idLaserPointer, namePointer);
+		GameRegistry.registerItem(itemPointer, namePointer);
 		
 		itemLense = new ItemCelestialCraft(config.idLense, nameLense);
 		GameRegistry.registerItem(itemLense, nameLense);

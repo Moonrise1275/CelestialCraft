@@ -47,11 +47,17 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 	}
 	
 	public void setItem(ItemStack item) {
-		
+		this.item = item;
 	}
 	
 	public boolean isEmpty() {
 		return this.item == null;
+	}
+	
+	public String printItem() {
+		if (this.item == null)
+			return "nothing here";
+		return this.item.toString();
 	}
 	
 	private void chargeTool(int i) {

@@ -72,8 +72,7 @@ public class CelestialCraft {
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent evt) {
 		
-		GameRegistry.registerFuelHandler(fuel);
-		
+		GameRegistry.registerFuelHandler(fuel);		
 	}
 	
 	@Mod.EventHandler

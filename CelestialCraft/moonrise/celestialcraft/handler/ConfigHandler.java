@@ -16,7 +16,8 @@ public class ConfigHandler {
 	
 	public static float 
 	antennaDistance,
-	receiverExplosionStrength;
+	receiverExplosionStrength,
+	pointerSize;
 	
 	private static int block = ModInfo.BASIC_BLOCK_ID, 
 			           item = ModInfo.BASIC_ITEM_ID;
@@ -26,6 +27,7 @@ public class ConfigHandler {
 	idTelescope,
 	idMap,
 	idReflectorUpgrade,
+	idLaserPointer,
 	
 	idBlockAlter,
 	idBlockMeta;
@@ -53,12 +55,14 @@ public class ConfigHandler {
 		this.idTelescope = config.getItem("Telescope", ++item).getInt();
 		this.idMap = config.getItem("CelestialMap", ++item).getInt();
 		this.idReflectorUpgrade = config.getItem("ReflectorUpgrade", ++item).getInt();
+		this.idLaserPointer = config.getItem("LaserPointer", ++item).getInt();
 		
 		this.idBlockAlter = config.getBlock("StarlightAlter", ++block).getInt();
 		this.idBlockMeta = config.getBlock("Meta", ++block).getInt();
 		
 		this.antennaDistance = (float) config.get(general, "Antenna_Distance", 800.0).getDouble(800.0);
 		this.receiverExplosionStrength = (float) config.get(general, "Receiver_Explosion_Strength", 3.5).getDouble(3.5);
+		this.pointerSize = (float) config.get(general, "Pointer_Size", 0.35).getDouble(0.35);
 		
 	}
 
