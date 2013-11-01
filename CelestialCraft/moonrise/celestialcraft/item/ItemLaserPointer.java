@@ -77,7 +77,7 @@ public class ItemLaserPointer extends ItemCelestialCraft implements IToolStarLig
 		
 		this.pointer = new Coord(hitX, hitY, hitZ);
 		this.side = Vec.fromSide(side);
-		this.color = item.getItemDamage();
+		this.color = item.getItemDamage()%16;
 		
 		return true;
 	}

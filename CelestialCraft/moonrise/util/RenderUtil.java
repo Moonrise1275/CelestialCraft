@@ -34,6 +34,10 @@ public class RenderUtil {
 	
 	public static void draw(ResourceLocation resource, World world, Coord LU, Coord RU, Coord LD, Coord RD, double minU, double maxU, double minV, double maxV) {
 		
+		if (!world.isRemote)
+			return;
+		
+		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		Minecraft.getMinecraft().renderEngine.bindTexture(resource);
@@ -50,6 +54,7 @@ public class RenderUtil {
 		tess.draw();
 		
 		GL11.glDepthMask(true);
+		GL11.glPopMatrix();
 	}
 	
 }

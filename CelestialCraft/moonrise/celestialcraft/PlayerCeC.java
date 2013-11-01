@@ -93,7 +93,7 @@ public class PlayerCeC implements Serializable {
 				oldFile.delete();
 			thisFile.renameTo(oldFile);
 		}
-		System.out.println("Saving CelestialData");
+		System.out.println("[CelestialCraft] Saving CelestialData");
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
 		out.writeObject(playerList);
 		
