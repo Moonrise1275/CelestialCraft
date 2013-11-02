@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -13,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderUtil {
 	
-	public static void draw(ResourceLocation resource, World world, Coord center, Vec vec, double size) {
+	public static void draw(Icon icon, World world, Coord center, Vec vec, double size) {
 		Coord LU, RU, LD, RD;
 		if (vec == Vec.UP || vec == Vec.DOWN) {
 			LU = new Coord(center.getX() - (size/2), center.getY(), center.getZ() - (size/2) * vec.y);
@@ -29,31 +30,31 @@ public class RenderUtil {
 			LD = center.add(hor).add(ver.opposite());
 			RD = center.add(hor.opposite()).add(ver.opposite());
 		}
-		draw(resource, world, LU, RU, LD, RD, 0, 1, 0, 1);
+		draw(icon, world, LU, RU, LD, RD);
 	}
 	
-	public static void draw(ResourceLocation resource, World world, Coord LU, Coord RU, Coord LD, Coord RD, double minU, double maxU, double minV, double maxV) {
+	public static void draw(Icon icon, World world, Coord LU, Coord RU, Coord LD, Coord RD) {
 		
 		if (!world.isRemote)
 			return;
 		
 		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		Minecraft.getMinecraft().renderEngine.bindTexture(resource);
-		GL11.glDepthMask(false);
 		
 		Tessellator tess = Tessellator.instance;
 		tess.startDrawingQuads();
 		
-		tess.addVertexWithUV(LD.getX(), LD.getY(), LD.getZ(), minU, minV);
-		tess.addVertexWithUV(RD.getX(), RD.getY(), RD.getZ(), maxU, minV);
-		tess.addVertexWithUV(RU.getX(), RU.getY(), RU.getZ(), maxU, maxV);
-		tess.addVertexWithUV(LU.getX(), LU.getY(), LU.getZ(), minU, maxV);
+		tess.setTranslation(LD.getX(), LD.getY(), LD.getZ());
+		tess.setTranslation(RD.getX(), RD.getY(), RD.getZ());
+		tess.setTranslation(LU.getX(), LU.getY(), LU.getZ());
+		tess.setTranslation(RU.getX(), RU.getY(), RU.getZ());
+		
+		tess.addVertexWithUV(LD.getX(), LD.getY(), LD.getZ(), icon.getMinU(), icon.getMinV());
+		tess.addVertexWithUV(RD.getX(), RD.getY(), RD.getZ(), icon.getMaxU(), icon.getMinV());
+		tess.addVertexWithUV(RU.getX(), RU.getY(), RU.getZ(), icon.getMaxU(), icon.getMaxV());
+		tess.addVertexWithUV(LU.getX(), LU.getY(), LU.getZ(), icon.getMinU(), icon.getMaxV());
 		
 		tess.draw();
 		
-		GL11.glDepthMask(true);
 		GL11.glPopMatrix();
 	}
 	

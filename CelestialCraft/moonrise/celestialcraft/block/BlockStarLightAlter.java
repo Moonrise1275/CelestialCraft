@@ -45,18 +45,16 @@ public class BlockStarLightAlter extends BlockTileCeC {
 					player.addChatMessage("Amount of currently stored starlight is " + alter.getEnergy());
 				}
 				else
-				if (!alter.isEmpty()) {
+				if (!(alter.getStackInSlot(0) == null)) {
 					EntityUtil.dropItem(alter.getStackInSlot(0), tile);
+					alter.decrStackSize(0, alter.getStackInSlot(0).stackSize);
 				}
 				else
-				if (hand != null){// && alter.isItemValidForSlot(0, hand)) {
+				if (hand != null && alter.isItemValidForSlot(0, hand)) {
 					ItemStack newItem = player.getCurrentEquippedItem().copy();
 					newItem.stackSize = 1;
-					alter.setItem(newItem.copy());
-					newItem.stackSize = player.getCurrentEquippedItem().stackSize -1;
-					if (newItem.stackSize <= 0)
-						player.setCurrentItemOrArmor(0, null);
-					player.setCurrentItemOrArmor(0, newItem);
+					alter.setInventorySlotContents(0, newItem);
+					player.setCurrentItemOrArmor(0, player.getCurrentEquippedItem().splitStack(1));
 				}
 				System.out.println(alter.printItem());
 			}

@@ -11,11 +11,12 @@ public class ModBlocks {
 	
 	private static ModBlocks instance;
 	
-	public static Block blockStarLightAlter;
+	public static Block blockStarLightAlter, blockMogi;
 	
 	public static String
 	nameStarLightAlter = "StarLightAlter",
-	nameStarLightReflector = "StarLightReflector";
+	nameStarLightReflector = "StarLightReflector",
+	nameMogi = "Mogi";
 	
 	private static ConfigHandler config;
 	
@@ -33,6 +34,9 @@ public class ModBlocks {
 		
 		blockStarLightAlter = new BlockStarLightAlter(config.idBlockAlter, nameStarLightAlter);
 		GameRegistry.registerBlock(blockStarLightAlter,ItemBlockWithMetadata.class, nameStarLightAlter);
+		
+		blockMogi = new BlockMogi(config.idBlockMogi, nameMogi);
+		GameRegistry.registerBlock(blockMogi, nameMogi);
 	}
 	
 	

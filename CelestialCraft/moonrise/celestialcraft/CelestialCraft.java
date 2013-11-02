@@ -66,6 +66,7 @@ public class CelestialCraft {
 		ModBlocks.init();
 		ModItems.registerRecipes();
 		ModBlocks.registerTileEntity();
+		proxy.registerTESR();
 		
 	}
 	

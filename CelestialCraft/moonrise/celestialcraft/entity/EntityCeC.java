@@ -20,13 +20,13 @@ public class EntityCeC extends Entity {
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-		
+	protected void readEntityFromNBT(NBTTagCompound nbtTag) {
+		super.readFromNBT(nbtTag);
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-		
+	protected void writeEntityToNBT(NBTTagCompound nbtTag) {
+		super.writeToNBT(nbtTag);
 	}
 
 }

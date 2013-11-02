@@ -52,11 +52,14 @@ public class ItemLaserPointer extends ItemCelestialCraft implements IToolStarLig
 	
 	@SideOnly(Side.CLIENT)
 	private Icon[] icons;
+	@SideOnly(Side.CLIENT)
+	private Icon[] pointers;
 
 	public ItemLaserPointer(int id, String name) {
 		super(id, name);
 		this.setMaxStackSize(1);
 		this.icons = new Icon[16];
+		this.pointers = new Icon[16];
 		this.energy = 0;
 		this.charge = 0;
 		this.pointerSize = ConfigHandler.pointerSize;
@@ -125,7 +128,7 @@ public class ItemLaserPointer extends ItemCelestialCraft implements IToolStarLig
 	
 	@SideOnly(Side.CLIENT)
 	private void renderPointer(World world, Coord coord, Vec side, int color) {
-		RenderUtil.draw(new ResourceLocation("celestialcraft",pointerTextures[color]), world, coord, side, pointerSize);
+		RenderUtil.draw(this.pointers[color], world, coord, side, pointerSize);
 	}
 	
 	@Override
@@ -141,7 +144,8 @@ public class ItemLaserPointer extends ItemCelestialCraft implements IToolStarLig
 	@Override
 	public void registerIcons(IconRegister register) {
 		for (int i=0; i<icons.length; i++) {
-			icons[i] = register.registerIcon(getUnlocalizedName() + "_" + ItemDye.dyeItemNames[i]);
+			icons[i] = register.registerIcon(ModInfo.TEXTURE_PATH + getUnlocalizedName() + "_" + EnumColors.values()[i]);
+			pointers[i] = register.registerIcon(ModInfo.TEXTURE_PATH + "Pointer_" + EnumColors.values()[i]);
 		}
 	}
 	

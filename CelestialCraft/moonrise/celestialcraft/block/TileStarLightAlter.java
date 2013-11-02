@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import moonrise.celestialcraft.interfaces.IToolStarLight;
 import moonrise.util.Coord;
+import moonrise.util.EntityUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -44,14 +45,6 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 				this.energy += amount;
 			else this.energy = this.MAX_ENERGY;
 		}
-	}
-	
-	public void setItem(ItemStack item) {
-		this.item = item;
-	}
-	
-	public boolean isEmpty() {
-		return this.item == null;
 	}
 	
 	public String printItem() {
@@ -97,7 +90,7 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 		}
 	}
 	
-	//methodes of IInventory
+	//   IInventory
 
 	@Override
 	public int getSizeInventory() {
@@ -105,27 +98,39 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int i) {
-		if (this.item == null)
-			return null;
-		ItemStack cpy = this.item.copy();
-		this.item = null;
-		return cpy;
+	public ItemStack getStackInSlot(int slot) {
+		return this.item;
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		return null;
+	public ItemStack decrStackSize(int slot, int amount) {
+		ItemStack result = this.getStackInSlot(slot).copy();
+		if (result != null) {
+			if (result.stackSize <= amount) {
+				setInventorySlotContents(slot, null);
+			} else {
+				result = result.splitStack(amount);
+			}
+			this.onInventoryChanged();
+		}
+		return result;
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		return this.getStackInSlot(i);
+	public ItemStack getStackInSlotOnClosing(int slot) {
+		ItemStack result = getStackInSlot(slot);
+		setInventorySlotContents(slot, null);
+		return result;
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
+	public void setInventorySlotContents(int slot, ItemStack itemstack) {
 		this.item = itemstack;
+		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()) {
+			EntityUtil.dropItem(itemstack.splitStack(this.getInventoryStackLimit()), this);
+			itemstack.stackSize = getInventoryStackLimit();
+		}
+		this.onInventoryChanged();
 	}
 
 	@Override
@@ -145,7 +150,7 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		return true;
+		return new Coord(entityplayer).getDistance(new Coord(this.xCoord, this.yCoord, this.zCoord).getCenter()) <= 32;
 	}
 
 	@Override
@@ -160,9 +165,7 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		if (itemstack.getItem() instanceof IToolStarLight)
-			return true;
-		return false;
+		return true;
 	}
 	
 }
