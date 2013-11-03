@@ -19,6 +19,7 @@ public class BlockStarLightAlter extends BlockTileCeC {
 	
 	public BlockStarLightAlter(int id, String name) {
 		super(id, name);
+		this.setBlockBounds(0f, 0f, 0f, 1f, 0.125f, 1f);
 	}
 	
 	@Override

@@ -17,11 +17,13 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 	public static final int MAX_ENERGY = 2560000;
 	public ItemStack tool;
 	private HashSet<TileStarLightReflector> reflectors;
+	public int cubeTick, coreTick;
 	
 	public TileStarLightAlter() {
 		this.item = null;
 		this.energy = 0;
 		this.reflectors = new HashSet<TileStarLightReflector>();
+		this.cubeTick = this.coreTick = 0;
 	}
 	
 	@Override
@@ -29,6 +31,13 @@ public class TileStarLightAlter extends TileCeC implements IInventory {
 		addEnergy();
 		chargeTool(10);
 		sendEnergy(10);
+		
+		if (this.cubeTick >= 150)
+			this.cubeTick -= 150;
+		if (this.coreTick >= 120)
+			this.coreTick -= 120;
+		cubeTick++; coreTick++ ;
+		
 	}
 	
 	

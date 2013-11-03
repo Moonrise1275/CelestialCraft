@@ -19,6 +19,8 @@ public class ModInfo implements IModInfo {
 	
 	public static final String TEXTURE_PATH = "CelestialCraft:";
 	
+	public static final float PI = (float)Math.PI;
+	
 	
 	
 	

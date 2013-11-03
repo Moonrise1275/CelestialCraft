@@ -2,7 +2,9 @@ package moonrise.util;
 
 import org.lwjgl.opengl.GL11;
 
+import moonrise.celestialcraft.ModInfo;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
@@ -13,6 +15,18 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderUtil {
+	
+	public static void addRotation(ModelRenderer model, float x, float y, float z) {
+		model.rotateAngleX += x;
+		model.rotateAngleY += y;
+		model.rotateAngleZ += z;
+		if (x >= 2*ModInfo.PI)
+			model.rotateAngleX -= 2*ModInfo.PI;
+		if (y >= 2*ModInfo.PI)
+			model.rotateAngleY -= 2*ModInfo.PI;
+		if (z >= 2*ModInfo.PI)
+			model.rotateAngleZ -= 2*ModInfo.PI;
+	}
 	
 	public static void draw(Icon icon, World world, Coord center, Vec vec, double size) {
 		Coord LU, RU, LD, RD;
